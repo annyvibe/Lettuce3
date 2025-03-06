@@ -2,8 +2,6 @@ let handPose;
 let video;
 let hands = [];
 let lettuceVideo;
-let lastTap = 0;
-let fullscreenMode = false;
 
 function preload() {
     handPose = ml5.handPose();
@@ -20,11 +18,13 @@ function setup() {
     lettuceVideo = createVideo(['assets/Lettuce.mp4']);
     lettuceVideo.size(windowWidth, windowHeight);
     lettuceVideo.hide();
-    lettuceVideo.loop();
     lettuceVideo.volume(0); // Start muted
 
     // Start hand gesture recognition
     handPose.detectStart(webcam, gotHands);
+
+    // Request full screen
+    requestFullScreen();
 
     let startButton = document.getElementById('startButton');
     startButton.addEventListener('click', startVideo);
@@ -33,9 +33,18 @@ function setup() {
 function startVideo() {
     if (lettuceVideo && lettuceVideo.elt.paused) {
         lettuceVideo.loop();
-        lettuceVideo.volume(1);
-        document.getElementById('startButton').style.display = 'none';
+        lettuceVideo.volume(1); // Set volume to 1 (full volume)
     }
+    let startButton = document.getElementById('startButton');
+    startButton.style.display = 'none'; // Hide the button after starting
+}
+
+function touchStarted() {
+    if (lettuceVideo && lettuceVideo.elt.paused) {
+        lettuceVideo.loop();
+        lettuceVideo.volume(1); // Set volume to 1 (full volume)
+    }
+    return false; // Prevent default
 }
 
 function draw() {
@@ -52,28 +61,21 @@ function draw() {
     }
 }
 
+// 处理手势数据
 function gotHands(results) {
     hands = results;
 }
 
-function touchEnded() {
-    let currentTime = millis();
-    if (currentTime - lastTap < 300) { // Double tap detected
-        toggleFullScreen();
+// 全屏功能
+function requestFullScreen() {
+    let elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen();
     }
-    lastTap = currentTime;
-}
-
-function toggleFullScreen() {
-    let fs = fullscreen();
-    fullscreen(!fs);
-    fullscreenMode = !fs;
-}
-
-function touchStarted() {
-    if (lettuceVideo && lettuceVideo.elt.paused) {
-        lettuceVideo.loop();
-        lettuceVideo.volume(1);
-    }
-    return false; // Prevent default
 }
