@@ -23,11 +23,25 @@ function setup() {
     // Start hand gesture recognition
     handPose.detectStart(webcam, gotHands);
 
-    // Request full screen
-    requestFullScreen();
-
     let startButton = document.getElementById('startButton');
-    startButton.addEventListener('click', startVideo);
+    startButton.addEventListener('click', function () {
+        startButton.style.display = 'none'; // 立即隐藏按钮
+        startVideo(); // 然后开始视频
+    });
+
+    // 创建全屏按钮
+    let fullscreenButton = document.createElement('button');
+    fullscreenButton.id = 'fullscreenButton';
+    fullscreenButton.textContent = 'Enter Fullscreen';
+    fullscreenButton.style.position = 'absolute';
+    fullscreenButton.style.top = '10px';
+    fullscreenButton.style.right = '10px';
+    document.body.appendChild(fullscreenButton);
+
+    fullscreenButton.addEventListener('click', function () {
+        requestFullScreen();
+        fullscreenButton.style.display = 'none'; // 点击后隐藏全屏按钮
+    });
 }
 
 function startVideo() {
@@ -35,8 +49,6 @@ function startVideo() {
         lettuceVideo.loop();
         lettuceVideo.volume(1); // Set volume to 1 (full volume)
     }
-    let startButton = document.getElementById('startButton');
-    startButton.style.display = 'none'; // Hide the button after starting
 }
 
 function touchStarted() {
