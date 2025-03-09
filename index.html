@@ -5,13 +5,9 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gesture Controlled Video</title>
-  <!-- 添加权限策略 -->
-  <meta http-equiv="Permissions-Policy" content="accelerometer=(), gyroscope=()">
-
+  <title>Full-Screen Video Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
   <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
-
   <style>
     body,
     html {
@@ -23,34 +19,19 @@
       background-color: black;
     }
 
-    #playerContainer {
-      position: fixed;
+    video {
+      position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      border: none;
-    }
-
-    /* 全屏样式覆盖 */
-    iframe[allowfullscreen] {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
 
 <body>
-  <!-- 修改后的iframe容器 -->
-  <iframe id="playerContainer" src="https://annyvibe.github.io/Lettuce3/" allow="accelerometer; gyroscope; fullscreen"
-    allowfullscreen></iframe>
-
-  <!-- 原启动按钮保留 -->
   <button id="startButton" style="position: absolute; z-index: 10;">Start</button>
-
   <script src="sketch.js"></script>
 </body>
 
