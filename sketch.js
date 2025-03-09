@@ -83,7 +83,7 @@ function draw() {
 
 
 function gotHands(results) {
-    if (frameCount % 5 === 0) {
+    if (frameCount % 48 === 0) {
         hands = results;
     }
 }
