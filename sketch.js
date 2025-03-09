@@ -68,24 +68,20 @@ function touchStarted() {
 function draw() {
     image(lettuceVideo, 0, 0, width, height);
 
-    if (hands.length > 0) {
+    if (hands.length > 0 && frameCount % 24 === 0) {
         let finger = hands[0].annotations.indexFinger[3];
         let thumb = hands[0].annotations.thumb[3];
         let pinch = dist(finger[0], finger[1], thumb[0], thumb[1]);
         targetSpeed = constrain(map(pinch, 10, 200, 0.1, 2), 0.1, 2);
-    } else {
-        targetSpeed = 1;
     }
-
+    console.log(pinch);
     currentSpeed = lerp(currentSpeed, targetSpeed, 0.1);
     lettuceVideo.speed(currentSpeed);
 }
 
 
 function gotHands(results) {
-    if (frameCount % 48 === 0) {
-        hands = results;
-    }
+    hands = results;
 }
 
 
