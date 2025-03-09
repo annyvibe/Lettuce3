@@ -66,9 +66,9 @@ function draw() {
         let finger = hands[0].index_finger_tip;
         let thumb = hands[0].thumb_tip;
         let pinch = dist(finger.x, finger.y, thumb.x, thumb.y);
-        let speed = map(pinch, 100, 700, 0.1, 2);
-        console.log(pinch);
+        let speed = map(pinch, 0, 700, 0.1, 2);
         lettuceVideo.speed(speed);
+        console.log(pinch);
     } else {
         lettuceVideo.speed(1);
     }
