@@ -2,6 +2,9 @@ let handPose;
 let video;
 let hands = [];
 let lettuceVideo;
+let targetSpeed = 1;
+let currentSpeed = 1;
+
 
 function preload() {
     handPose = ml5.handPose;
@@ -69,17 +72,20 @@ function draw() {
         let finger = hands[0].annotations.indexFinger[3];
         let thumb = hands[0].annotations.thumb[3];
         let pinch = dist(finger[0], finger[1], thumb[0], thumb[1]);
-        let speed = map(pinch, 10, 200, 0.1, 2);
-        console.log(pinch);
-        lettuceVideo.speed(speed);
+        targetSpeed = constrain(map(pinch, 10, 200, 0.1, 2), 0.1, 2);
     } else {
-        lettuceVideo.speed(1);
+        targetSpeed = 1;
     }
+
+    currentSpeed = lerp(currentSpeed, targetSpeed, 0.1);
+    lettuceVideo.speed(currentSpeed);
 }
 
 
 function gotHands(results) {
-    hands = results;
+    if (frameCount % 5 === 0) {
+        hands = results;
+    }
 }
 
 
