@@ -5,11 +5,6 @@ let lettuceVideo;
 let targetSpeed = 1;
 let currentSpeed = 1;
 
-
-function preload() {
-    handPose = ml5.handPose;
-}
-
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
@@ -17,7 +12,8 @@ function setup() {
     video.size(windowWidth, windowHeight);
     video.hide();
 
-    handPose = ml5.handPose(video, modelReady);
+    // 正确的 handPose 方式
+    handPose = ml5.handpose(video, modelReady);
     handPose.on("predict", gotHands);
 
     lettuceVideo = createVideo(['assets/Lettuce.mp4']);
@@ -30,7 +26,6 @@ function setup() {
         startButton.style.display = 'none';
         startVideo();
     });
-
 
     let fullscreenButton = document.createElement('button');
     fullscreenButton.id = 'fullscreenButton';
@@ -74,16 +69,15 @@ function draw() {
         let pinch = dist(finger[0], finger[1], thumb[0], thumb[1]);
         targetSpeed = constrain(map(pinch, 10, 200, 0.1, 2), 0.1, 2);
     }
-    console.log(pinch);
+
+    console.log(targetSpeed);
     currentSpeed = lerp(currentSpeed, targetSpeed, 0.1);
     lettuceVideo.speed(currentSpeed);
 }
 
-
 function gotHands(results) {
     hands = results;
 }
-
 
 function requestFullScreen() {
     let elem = document.documentElement;
