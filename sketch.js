@@ -41,35 +41,20 @@ function setup() {
     });
 
 }
-function onClick() {
-    // feature detect
+function requestMotionAccess() {
     if (typeof DeviceMotionEvent.requestPermission === 'function') {
         DeviceMotionEvent.requestPermission()
             .then(permissionState => {
                 if (permissionState === 'granted') {
-                    window.addEventListener('devicemotion', () => { });
+                    window.addEventListener('devicemotion', handleMotion);
                 }
             })
             .catch(console.error);
     } else {
-        // handle regular non iOS 13+ devices
+        // Handle non-iOS 13+ devices
     }
 }
 
-function onClick() {
-    // feature detect
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        DeviceOrientationEvent.requestPermission()
-            .then(permissionState => {
-                if (permissionState === 'granted') {
-                    window.addEventListener('deviceorientation', () => { });
-                }
-            })
-            .catch(console.error);
-    } else {
-        // handle regular non iOS 13+ devices
-    }
-}
 function startVideo() {
     if (lettuceVideo && lettuceVideo.elt.paused) {
         lettuceVideo.loop();
