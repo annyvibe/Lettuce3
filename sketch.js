@@ -14,22 +14,19 @@ function setup() {
     webcam.size(windowWidth, windowHeight);
     webcam.hide();
 
-    // Modify video creation
     lettuceVideo = createVideo(['assets/Lettuce.mp4']);
     lettuceVideo.size(windowWidth, windowHeight);
     lettuceVideo.hide();
-    lettuceVideo.volume(0); // Start muted
+    lettuceVideo.volume(0);
 
-    // Start hand gesture recognition
     handPose.detectStart(webcam, gotHands);
 
     let startButton = document.getElementById('startButton');
     startButton.addEventListener('click', function () {
-        startButton.style.display = 'none'; // 立即隐藏按钮
-        startVideo(); // 然后开始视频
+        startButton.style.display = 'none';
+        startVideo();
     });
 
-    // 创建全屏按钮
     let fullscreenButton = document.createElement('button');
     fullscreenButton.id = 'fullscreenButton';
     fullscreenButton.textContent = 'Enter Fullscreen';
@@ -40,23 +37,23 @@ function setup() {
 
     fullscreenButton.addEventListener('click', function () {
         requestFullScreen();
-        fullscreenButton.style.display = 'none'; // 点击后隐藏全屏按钮
+        fullscreenButton.style.display = 'none';
     });
 }
 
 function startVideo() {
     if (lettuceVideo && lettuceVideo.elt.paused) {
         lettuceVideo.loop();
-        lettuceVideo.volume(1); // Set volume to 1 (full volume)
+        lettuceVideo.volume(1);
     }
 }
 
 function touchStarted() {
     if (lettuceVideo && lettuceVideo.elt.paused) {
         lettuceVideo.loop();
-        lettuceVideo.volume(1); // Set volume to 1 (full volume)
+        lettuceVideo.volume(1);
     }
-    return false; // Prevent default
+    return false;
 }
 
 function draw() {
@@ -66,7 +63,7 @@ function draw() {
         let finger = hands[0].index_finger_tip;
         let thumb = hands[0].thumb_tip;
         let pinch = dist(finger.x, finger.y, thumb.x, thumb.y);
-        let speed = map(pinch, 100, 700, 0.1, 2);
+        let speed = map(pinch, 0, 700, 0.5, 2);
         console.log(pinch);
         lettuceVideo.speed(speed);
     } else {
@@ -74,21 +71,15 @@ function draw() {
     }
 }
 
-// 处理手势数据
 function gotHands(results) {
     hands = results;
 }
 
-// 全屏功能
 function requestFullScreen() {
     let elem = document.documentElement;
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { // Firefox
-        elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari
+    } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { // IE/Edge
-        elem.msRequestFullscreen();
     }
 }
