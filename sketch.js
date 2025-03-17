@@ -97,7 +97,7 @@ function draw() {
         let thumb = hands[0].thumb_tip;
         pinch = dist(finger.x, finger.y, thumb.x, thumb.y);
         console.log(pinch);
-        speed = map(pinch, 0, 700, 3, 0.1, true);
+        speed = map(pinch, 200, 700, 3, 0.1, true);
         speed = speed.toFixed(1)
 
         lettuceVideo.elt.playbackRate = speed
